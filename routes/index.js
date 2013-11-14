@@ -4,5 +4,6 @@
  */
 
 exports.index = function(req, res){
-  res.render('index');
+ 	var handshake = Instagram.subscriptions.handshake(req, res);
+  	res.sendfile('./build/index.html');
 };

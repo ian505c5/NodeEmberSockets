@@ -8,7 +8,8 @@ var express = require('express')
   , http = require('http')
   , path = require('path');
 
-var app = express();
+var app = module.exports = express();
+var io = require('socket.io').listen(app.listen(3000))
 
 var data =   /* sample recipe data */
     [
@@ -31,7 +32,7 @@ app.configure(function(){
   //app.use(express.cookieParser('your secret here'));
   //app.use(express.session());
   app.use(app.router);
-  app.use(express.static(path.join(__dirname, 'public')));
+  app.use(express.static(path.join(__dirname+'/build')));
 });
 
 app.configure('development', function(){
@@ -44,6 +45,47 @@ app.get('/recipes', function(req, res) {
     res.send(data);
 });
 
-http.createServer(app).listen(app.get('port'), function(){
-  console.log("Express server listening on port " + app.get('port'));
+
+//SET up Instagram
+Instagram = require('instagram-node-lib');
+
+Instagram.set('client_id', '8ee1ba3320fb4f58bc25261e0f56542c');
+Instagram.set('client_secret', 'efb38cf744ab415fbfc4d3e1b734907b');
+Instagram.set('callback_url', 'http://localhost:3000/callback');
+Instagram.set('redirect_url', 'http://localhost:3000/');
+Instagram.set('maxSockets', 10);
+
+Instagram.subscriptions.subscribe({
+  object: 'tag',
+  object_id: 'dogs',
+  aspect: 'media',
+  callback_url: 'http://localhost:3000/callback',
+  type: 'subscription',
+  id: '#'
 });
+
+io.sockets.on('connection', function(socket){
+  Instagram.tags.recent({
+    name: 'dogs',
+    complete: function(data){
+      socket.emit('firstShow', { firstShow: data });
+    }
+  });
+});
+app.get('/callback', function(req,res){
+  var handshake = Instagram.subscriptions.handshake(req, res);
+});
+app.post('/callback', function(req, res){
+  var data = req.body;
+
+  data.forEach(function(tag){
+    var url = 'https://api.instagram.com/v1/tags/'+tag.object_id+'/media/recent?client_id=8ee1ba3320fb4f58bc25261e0f56542c';
+    sendMessage(url);
+  });
+});
+
+function sendMessage(url){
+  io.sockets.emit('show', { show: url });
+};
+
+http.createServer(app);
