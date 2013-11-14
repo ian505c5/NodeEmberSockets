@@ -10,6 +10,7 @@ var express = require('express')
 
 var app = module.exports = express();
 var io = require('socket.io').listen(app.listen(port))
+console.log("Listening on port"+port);
 
 var data =   /* sample recipe data */
     [
