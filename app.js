@@ -9,7 +9,7 @@ var express = require('express')
   , path = require('path');
 
 var app = module.exports = express();
-var io = require('socket.io').listen(app.listen(3000))
+var io = require('socket.io').listen(app.listen(port))
 
 var data =   /* sample recipe data */
     [
@@ -20,7 +20,7 @@ var data =   /* sample recipe data */
             "directions": "Place all ingredients in a (preferably nonstick) pan and let sit for a few minutes. Then cook covered over medium heat for about three minutes until they are soft. Remove the cover and cook until the liquid is almost gone, then serve.",
             "ingredients": "12 mushrooms, 1/4 cup balsamic vinegar, 1/8 cup red wine"}
     ];
-
+var port = process.env.PORT || 3000;
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
