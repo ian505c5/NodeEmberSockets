@@ -1,4 +1,4 @@
-RecipeTracker.Router = Ember.Router.extend({
+TestApp.Router = Ember.Router.extend({
   root: Ember.Route.extend({
     index: Ember.Route.extend({
       route: '/'
@@ -6,4 +6,4 @@ RecipeTracker.Router = Ember.Router.extend({
   })
 })
 
-RecipeTracker.initialize();
+TestApp.initialize();
