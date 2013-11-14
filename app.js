@@ -10,7 +10,7 @@ var express = require('express')
 
 var app = module.exports = express();
 var io = require('socket.io').listen(app.listen(port))
-console.log("Listening on port"+port);
+
 
 var data =   /* sample recipe data */
     [
@@ -22,6 +22,7 @@ var data =   /* sample recipe data */
             "ingredients": "12 mushrooms, 1/4 cup balsamic vinegar, 1/8 cup red wine"}
     ];
 var port = process.env.PORT || 3000;
+console.log("Listening on port"+port);
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
