@@ -87,6 +87,6 @@ module.exports = function(grunt){
 	grunt.registerTask(
 		'poop',
 		'Watches the project for changes, automatically builds them and runs a server.',
-		['build','node-server','watch']
+		['build', 'watch']
 	);
 }
