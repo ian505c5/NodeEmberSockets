@@ -9,9 +9,9 @@ var express = require('express')
   , path = require('path');
   var port = process.env.PORT || 3000;
   var app = module.exports = express();
-  var io = require('socket.io');
-
-  var socket = io.listen(app.listen(port))
+  var server = http.createServer(app);
+  var io = require('socket.io').listen(server);
+  server.listen(port)
 
 
 
@@ -96,4 +96,4 @@ function sendMessage(url){
   socket.sockets.emit('show', { show: url });
 };
 
-http.createServer(app);
+
