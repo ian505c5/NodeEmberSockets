@@ -1,4 +1,4 @@
-var socket = io.connect('http://fathomless-basin-1390.herokuapp.com');	
+var socket = io.connect();	
 TestApp = Ember.Application.createWithMixins({
 	
 	ready: function() {  // this triggers an AJAX call to Clojure REST interfac	
