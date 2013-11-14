@@ -1,1 +1,1 @@
-web: grunt poop
+web: node app.js
