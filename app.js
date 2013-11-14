@@ -7,9 +7,10 @@ var express = require('express')
   , routes = require('./routes')
   , http = require('http')
   , path = require('path');
+  var port = process.env.PORT || 3000;
+  var app = module.exports = express();
+  var io = require('socket.io').listen(app.listen(port))
 
-var app = module.exports = express();
-var io = require('socket.io').listen(app.listen(port))
 
 
 var data =   /* sample recipe data */
@@ -21,7 +22,7 @@ var data =   /* sample recipe data */
             "directions": "Place all ingredients in a (preferably nonstick) pan and let sit for a few minutes. Then cook covered over medium heat for about three minutes until they are soft. Remove the cover and cook until the liquid is almost gone, then serve.",
             "ingredients": "12 mushrooms, 1/4 cup balsamic vinegar, 1/8 cup red wine"}
     ];
-var port = process.env.PORT || 3000;
+
 console.log("Listening on port"+port);
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
@@ -49,45 +50,45 @@ app.get('/recipes', function(req, res) {
 
 
 //SET up Instagram
-Instagram = require('instagram-node-lib');
+// Instagram = require('instagram-node-lib');
 
-Instagram.set('client_id', '8ee1ba3320fb4f58bc25261e0f56542c');
-Instagram.set('client_secret', 'efb38cf744ab415fbfc4d3e1b734907b');
-Instagram.set('callback_url', 'http://fathomless-basin-1390.herokuapp.com/callback');
-Instagram.set('redirect_url', 'http://fathomless-basin-1390.herokuapp.com/');
-Instagram.set('maxSockets', 10);
+// Instagram.set('client_id', '8ee1ba3320fb4f58bc25261e0f56542c');
+// Instagram.set('client_secret', 'efb38cf744ab415fbfc4d3e1b734907b');
+// Instagram.set('callback_url', 'http://fathomless-basin-1390.herokuapp.com/callback');
+// Instagram.set('redirect_url', 'http://fathomless-basin-1390.herokuapp.com/');
+// Instagram.set('maxSockets', 10);
 
-Instagram.subscriptions.subscribe({
-  object: 'tag',
-  object_id: 'dogs',
-  aspect: 'media',
-  callback_url: 'http://fathomless-basin-1390.herokuapp.com/callback',
-  type: 'subscription',
-  id: '#'
-});
+// Instagram.subscriptions.subscribe({
+//   object: 'tag',
+//   object_id: 'dogs',
+//   aspect: 'media',
+//   callback_url: 'http://fathomless-basin-1390.herokuapp.com/callback',
+//   type: 'subscription',
+//   id: '#'
+// });
 
-io.sockets.on('connection', function(socket){
-  Instagram.tags.recent({
-    name: 'dogs',
-    complete: function(data){
-      socket.emit('firstShow', { firstShow: data });
-    }
-  });
-});
-app.get('/callback', function(req,res){
-  var handshake = Instagram.subscriptions.handshake(req, res);
-});
-app.post('/callback', function(req, res){
-  var data = req.body;
+// io.sockets.on('connection', function(socket){
+//   Instagram.tags.recent({
+//     name: 'dogs',
+//     complete: function(data){
+//       socket.emit('firstShow', { firstShow: data });
+//     }
+//   });
+// });
+// app.get('/callback', function(req,res){
+//   var handshake = Instagram.subscriptions.handshake(req, res);
+// });
+// app.post('/callback', function(req, res){
+//   var data = req.body;
 
-  data.forEach(function(tag){
-    var url = 'https://api.instagram.com/v1/tags/'+tag.object_id+'/media/recent?client_id=8ee1ba3320fb4f58bc25261e0f56542c';
-    sendMessage(url);
-  });
-});
+//   data.forEach(function(tag){
+//     var url = 'https://api.instagram.com/v1/tags/'+tag.object_id+'/media/recent?client_id=8ee1ba3320fb4f58bc25261e0f56542c';
+//     sendMessage(url);
+//   });
+// });
 
-function sendMessage(url){
-  io.sockets.emit('show', { show: url });
-};
+// function sendMessage(url){
+//   io.sockets.emit('show', { show: url });
+// };
 
 http.createServer(app);
