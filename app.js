@@ -49,7 +49,7 @@ app.get('/recipes', function(req, res) {
 });
 
 
-SET up Instagram
+//SET up Instagram
 Instagram = require('instagram-node-lib');
 
 Instagram.set('client_id', '8ee1ba3320fb4f58bc25261e0f56542c');
