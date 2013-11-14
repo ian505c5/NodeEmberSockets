@@ -9,7 +9,9 @@ var express = require('express')
   , path = require('path');
   var port = process.env.PORT || 3000;
   var app = module.exports = express();
-  var io = require('socket.io').listen(app.listen(port))
+  var io = require('socket.io');
+
+  var socket = io.listen(app.listen(port))
 
 
 
@@ -66,11 +68,11 @@ Instagram.subscriptions.subscribe({
   type: 'subscription',
   id: '#'
 });
-io.configure(function(){
-  io.set("transports", ["xhr-polling"]);
-  io.set("polling duration", 10);
+socket.configure(function(){
+  socket.set("transports", ["xhr-polling"]);
+  socket.set("polling duration", 10);
 });
-sockets.sockets.on('connection', function(socket){
+socket.sockets.on('connection', function(socket){
   Instagram.tags.recent({
     name: 'dogs',
     complete: function(data){
@@ -91,7 +93,7 @@ app.post('/callback', function(req, res){
 });
 
 function sendMessage(url){
-  io.sockets.emit('show', { show: url });
+  socket.sockets.emit('show', { show: url });
 };
 
 http.createServer(app);
