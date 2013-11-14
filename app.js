@@ -68,15 +68,15 @@ Instagram.subscriptions.subscribe({
   type: 'subscription',
   id: '#'
 });
-socket.configure(function(){
-  socket.set("transports", ["xhr-polling"]);
-  socket.set("polling duration", 10);
+io.configure(function(){
+  io.set("transports", ["xhr-polling"]);
+  io.set("polling duration", 10);
 });
-socket.sockets.on('connection', function(socket){
+io.sockets.on('connection', function(socket){
   Instagram.tags.recent({
     name: 'dogs',
     complete: function(data){
-      socket.emit('firstShow', { firstShow: data });
+      sockets.emit('firstShow', { firstShow: data });
     }
   });
 });
@@ -93,7 +93,7 @@ app.post('/callback', function(req, res){
 });
 
 function sendMessage(url){
-  socket.sockets.emit('show', { show: url });
+  io.sockets.emit('show', { show: url });
 };
 
 
