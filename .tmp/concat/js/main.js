@@ -40544,7 +40544,7 @@ TestApp = Ember.Application.createWithMixins({});
 
 TestApp.ApplicationController = Ember.Controller.extend({
   init: function(){
-  	var socket = io.connect('http://embernode.herokuapp.com/');
+  	var socket = io.connect();
 
 	var mostRecent = function(){
 		var that = this;
