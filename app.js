@@ -40,15 +40,15 @@ Instagram = require('instagram-node-lib');
 
 Instagram.set('client_id', '8ee1ba3320fb4f58bc25261e0f56542c');
 Instagram.set('client_secret', 'efb38cf744ab415fbfc4d3e1b734907b');
-Instagram.set('callback_url', 'http://embernode.herokuapp.com/callback');
-Instagram.set('redirect_url', 'http://embernode.herokuapp.com/');
+Instagram.set('callback_url', 'http://localhost:3000/callback');
+Instagram.set('redirect_url', 'http://localhost:3000/');
 Instagram.set('maxSockets', 10);
 
 Instagram.subscriptions.subscribe({
   object: 'tag',
   object_id: 'dogs',
   aspect: 'media',
-  callback_url: 'http://embernode.herokuapp.com/callback',
+  callback_url: 'http://localhost:3000/callback',
   type: 'subscription',
   id: '#'
 });
@@ -62,11 +62,12 @@ io.sockets.on('connection', function(socket){
   Instagram.tags.recent({
     name: 'dogs',
     complete: function(data){
-      sockets.emit('firstShow', { firstShow: data });
+      socket.emit('firstShow', { firstShow: data });
     }
   });
 });
 app.get('/callback', function(req,res){
+  console.log('handshake');
   var handshake = Instagram.subscriptions.handshake(req, res);
 });
 app.post('/callback', function(req, res){
