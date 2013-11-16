@@ -61,7 +61,7 @@ module.exports = function(grunt){
 	grunt.registerTask(
 		'build',
 		'Compliles all of the assets and copies the files to the build directory',
-		['clean:build','scripts','copy']
+		['clean:build','copy','scripts']
 	);
 
 	grunt.registerTask(
