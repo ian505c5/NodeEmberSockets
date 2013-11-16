@@ -72,6 +72,7 @@ app.get('/callback', function(req,res){
 });
 
 app.post('/callback', function(request, response){
+  console.log('pissss');
   // request.body is a JSON already parsed
   request.body.forEach(function(tag){
     // Every notification object contains the id of the geography
@@ -79,7 +80,7 @@ app.post('/callback', function(request, response){
     // that geography
     http.get({
       host: 'api.instagram.com',
-      path: 'https://api.instagram.com/v1/tags/'+tag.object_id+'/media/recent?client_id=8ee1ba3320fb4f58bc25261e0f56542c',
+      path: 'http://api.instagram.com/v1/tags/'+tag.object_id+'/media/recent?client_id=8ee1ba3320fb4f58bc25261e0f56542c',
     }, function(res){
       var raw = "";
 
