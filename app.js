@@ -72,15 +72,44 @@ app.get('/callback', function(req,res){
 });
 app.post('/callback', function(req, res){
   var data = req.body;
+});
 
-  data.forEach(function(tag){
-    var url = 'https://api.instagram.com/v1/tags/'+tag.object_id+'/media/recent?client_id=8ee1ba3320fb4f58bc25261e0f56542c';
-    sendMessage(url);
+app.post('/callback', function(request, response){
+  // request.body is a JSON already parsed
+  request.body.forEach(function(tag){
+    // Every notification object contains the id of the geography
+    // that has been updated, and the photo can be obtained from
+    // that geography
+    https.get({
+      host: 'api.instagram.com',
+      path: 'https://api.instagram.com/v1/tags/'+tag.object_id+'/media/recent?client_id=8ee1ba3320fb4f58bc25261e0f56542c';,
+    }, function(res){
+      var raw = "";
+
+      res.on('data', function(chunk) {
+        raw += chunk;
+      });
+
+      // When the whole body has arrived, it has to be a valid JSON, with data,
+      // and the first photo of the date must to have a location attribute.
+      // If so, the photo is emitted through the websocket
+      res.on('end', function() {
+        var response = JSON.parse(raw);
+        if(response['data'].length > 0 && response['data'][0]['location'] != null) {
+          sendMessage(raw);
+        } else {
+          console.log("ERROR: %s", util.inspect(response['meta']));
+        }
+      });
+
+    });
   });
+
+  response.writeHead(200);
 });
 
 function sendMessage(url){
-  io.sockets.emit('show', { show: url });
+  io.sockets.emit('show', { show: raw });
 };
 
 
