@@ -40539,22 +40539,40 @@ Ember
 
 
 
-TestApp = Ember.Application.createWithMixins({
-	
-	ready: function() {  // this triggers an AJAX call to Clojure REST interfac	
-		var mostRecent = function(){
-			var socket = io.connect('http://localhost');	
-			socket.on('firstShow', function(data){
-				console.log(data);
-			});
-		}
+TestApp = Ember.Application.createWithMixins({});
 
-		mostRecent();
+
+TestApp.ApplicationController = Ember.Controller.extend({
+  init: function(){
+	var mostRecent = function(){
+		var that = this;
+		var socket = io.connect('http://localhost');	
+		socket.on('firstShow', function(data){
+			that.instaData = data;
+			console.log(data)
+		});
 	}
+
+	var getData = function() {
+	    var self = this;
+	    socket.on('show', function(data) {
+	        var url = data.show;
+	        $.ajax({
+	            url: url,
+	            type: 'POST',
+	            crossDomain: true,
+	            dataType: 'jsonp'
+	        }).done(function (data) {
+	            console.log(data);
+	        }); 
+	    });
+	}
+
+	mostRecent();
+	getData();
+
+  }
 });
-
-
-TestApp.ApplicationController = Ember.Controller.extend();
 
 
 

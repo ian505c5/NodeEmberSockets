@@ -79,6 +79,6 @@ module.exports = function(grunt){
 	grunt.registerTask(
 		'poop',
 		'Watches the project for changes, automatically builds them and runs a server.',
-		['build', 'watch']
+		['build']
 	);
 }
