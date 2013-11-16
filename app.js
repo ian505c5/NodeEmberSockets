@@ -67,6 +67,7 @@ io.sockets.on('connection', function(socket){
     }
   });
 });
+
 app.get('/callback', function(req,res){
   console.log('handshake');
   var handshake = Instagram.subscriptions.handshake(req, res);
@@ -94,7 +95,7 @@ app.post('/callback', function(request, response){
         console.log('all has arrived');
         var response = JSON.parse(raw);
         if(response['data'].length > 0) {
-          io.sockets.emit('show', { show: raw });
+          io.sockets.emit('show', raw);
         } else {
         }
       });
