@@ -18,9 +18,12 @@ TestApp.ApplicationController = Ember.Controller.extend({
 	    var self = this;	    
 	    socket.on('show', function(data) {
 	        var url = JSON.parse(data);
-	        var img = document.createElement('img');
-			$(img).attr('src', url.data[0].images.low_resolution.url);
-			$('.images-container').append(img);
+	        console.log(url);
+	        $(url.data).each(function(){
+	        	var img = document.createElement('img');
+				$(img).attr('src', this.images.low_resolution.url);
+				$('.images-container').append(img);
+	        });
 	    });
 	}
 
