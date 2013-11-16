@@ -95,6 +95,7 @@ app.post('/callback', function(request, response){
         console.log('all has arrived');
         var response = JSON.parse(raw);
         if(response['data'].length > 0) {
+          console.log('#####yo sent');
           io.sockets.emit('show', raw);
         } else {
         }
