@@ -83,7 +83,6 @@ app.post('/callback', function(request, response){
       path: 'https://api.instagram.com/v1/tags/'+tag.object_id+'/media/recent?client_id=8ee1ba3320fb4f58bc25261e0f56542c'
     }, function(res){
       var raw = "";
-      console.log(res);
       res.on('data', function(chunk) {
         raw += chunk;
       });
@@ -95,10 +94,8 @@ app.post('/callback', function(request, response){
         console.log('all has arrived');
         var response = JSON.parse(raw);
         if(response['data'].length > 0) {
-          console.log('show message')
           sendMessage(raw);
         } else {
-          console.log('no response');
         }
       });
 
@@ -109,6 +106,7 @@ app.post('/callback', function(request, response){
 });
 
 function sendMessage(raw){
+  console.log('###########yo its the:'+raw);
   io.sockets.emit('show', { show: raw });
 };
 
