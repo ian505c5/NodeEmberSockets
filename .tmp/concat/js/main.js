@@ -40562,15 +40562,7 @@ TestApp.ApplicationController = Ember.Controller.extend({
 	    var self = this;	    
 	    socket.on('show', function(data) {
 	        var url = data.show;
-	        console.log('show');
-	        $.ajax({
-	            url: url,
-	            type: 'POST',
-	            crossDomain: true,
-	            dataType: 'jsonp'
-	        }).done(function (data) {
-	            console.log(data);
-	        }); 
+	        console.log('url');
 	    });
 	}
 

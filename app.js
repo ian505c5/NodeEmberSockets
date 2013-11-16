@@ -82,7 +82,7 @@ app.post('/callback', function(request, response){
     // that geography
     https.get({
       host: 'api.instagram.com',
-      path: 'https://api.instagram.com/v1/tags/'+tag.object_id+'/media/recent?client_id=8ee1ba3320fb4f58bc25261e0f56542c';,
+      path: 'https://api.instagram.com/v1/tags/'+tag.object_id+'/media/recent?client_id=8ee1ba3320fb4f58bc25261e0f56542c',
     }, function(res){
       var raw = "";
 
@@ -98,7 +98,7 @@ app.post('/callback', function(request, response){
         if(response['data'].length > 0 && response['data'][0]['location'] != null) {
           sendMessage(raw);
         } else {
-          console.log("ERROR: %s", util.inspect(response['meta']));
+          console.log('no response');
         }
       });
 
