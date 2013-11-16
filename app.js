@@ -6,6 +6,7 @@
 var express = require('express')
   , routes = require('./routes')
   , http = require('http')
+  , https = require("https")
   , path = require('path');
   var port = process.env.PORT || 3000;
   var app = module.exports = express();
