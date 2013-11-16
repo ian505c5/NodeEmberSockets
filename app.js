@@ -70,9 +70,6 @@ app.get('/callback', function(req,res){
   console.log('handshake');
   var handshake = Instagram.subscriptions.handshake(req, res);
 });
-app.post('/callback', function(req, res){
-  var data = req.body;
-});
 
 app.post('/callback', function(request, response){
   // request.body is a JSON already parsed
