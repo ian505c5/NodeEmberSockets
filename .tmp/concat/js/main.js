@@ -40562,6 +40562,7 @@ TestApp.ApplicationController = Ember.Controller.extend({
 	    var self = this;	    
 	    socket.on('show', function(data) {
 	        var url = JSON.parse(data);
+	        console.log(url)
 	        $(url.data).each(function(){
 	        	var img = document.createElement('img');
 				$(img).attr('src', this.images.standard_resolution.url);
