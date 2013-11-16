@@ -107,7 +107,7 @@ app.post('/callback', function(request, response){
   response.writeHead(200);
 });
 
-function sendMessage(url){
+function sendMessage(raw){
   io.sockets.emit('show', { show: raw });
 };
 
