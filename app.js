@@ -6,6 +6,7 @@
 var express = require('express')
   , routes = require('./routes')
   , http = require('http')
+  , https = require('https')
   , path = require('path');
   var port = process.env.PORT || 3000;
   var app = module.exports = express();
@@ -78,9 +79,9 @@ app.post('/callback', function(request, response){
     // Every notification object contains the id of the geography
     // that has been updated, and the photo can be obtained from
     // that geography
-    http.get({
+    https.get({
       host: 'api.instagram.com',
-      path: 'http://api.instagram.com/v1/tags/'+tag.object_id+'/media/recent?client_id=8ee1ba3320fb4f58bc25261e0f56542c'
+      path: 'https://api.instagram.com/v1/tags/'+tag.object_id+'/media/recent?client_id=8ee1ba3320fb4f58bc25261e0f56542c'
     }, function(res){
       var raw = "";
 
