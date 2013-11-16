@@ -94,7 +94,7 @@ app.post('/callback', function(request, response){
       res.on('end', function() {
         console.log('all has arrived');
         var response = JSON.parse(raw);
-        if(response['data'].length > 0 && response['data'][0]['location'] != null) {
+        if(response['data'].length > 0) {
           console.log('show message')
           sendMessage(raw);
         } else {
