@@ -40562,10 +40562,15 @@ TestApp.ApplicationController = Ember.Controller.extend({
 	    var self = this;	    
 	    socket.on('show', function(data) {
 	        var url = JSON.parse(data);
-	        console.log(url);
-        	var img = document.createElement('img');
-			$(img).attr('src', url.data[0].images.standard_resolution.url);
-			$('.images-container').append(img);
+
+	        $(url.data).each(function(){
+	        	var img = document.createElement('img');
+				$(img).attr('src', this.images.standard_resolution.url);
+				$('.images-container').append(img);
+	        });
+	  //       var img = document.createElement('img');
+			// $(img).attr('src', url.data[0].images.low_resolution.url);
+			// $('.images-container').append(img);
 	    });
 	}
 
