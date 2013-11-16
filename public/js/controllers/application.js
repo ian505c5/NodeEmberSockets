@@ -8,7 +8,7 @@ TestApp.ApplicationController = Ember.Controller.extend({
 			var	poop = data.firstShow;
 			$(poop).each(function(){
 				var img = document.createElement('img');
-				$(img).attr('src', this.images.standard_resolution.url);
+				$(img).attr('src', this.images.low_resolution.url);
 				$('.images-container').append(img);
 			})
 		});
@@ -18,12 +18,9 @@ TestApp.ApplicationController = Ember.Controller.extend({
 	    var self = this;	    
 	    socket.on('show', function(data) {
 	        var url = JSON.parse(data);
-	        console.log(url);
-	        $(url.data).each(function(){
-	        	var img = document.createElement('img');
-				$(img).attr('src', this.images.low_resolution.url);
-				$('.images-container').append(img);
-	        });
+        	var img = document.createElement('img');
+			$(img).attr('src', url.data[0].images.low_resolution.url);
+			$('.images-container').append(img);
 	    });
 	}
 
