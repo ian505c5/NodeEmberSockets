@@ -94,7 +94,7 @@ app.post('/callback', function(request, response){
         console.log('all has arrived');
         var response = JSON.parse(raw);
         if(response['data'].length > 0) {
-          sendMessage(raw);
+          io.sockets.emit('show', { show: raw });
         } else {
         }
       });
@@ -104,10 +104,5 @@ app.post('/callback', function(request, response){
 
   response.writeHead(200);
 });
-
-function sendMessage(raw){
-  console.log('###########yo its the:'+raw);
-  io.sockets.emit('show', { show: raw });
-};
 
 
