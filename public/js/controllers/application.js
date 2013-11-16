@@ -17,7 +17,7 @@ TestApp.ApplicationController = Ember.Controller.extend({
 	var getData = function() {
 	    var self = this;	    
 	    socket.on('show', function(data) {
-	        var url = JSON.parse(raw);
+	        var url = JSON.parse(data);
 	        console.log(url);
 	    });
 	}
